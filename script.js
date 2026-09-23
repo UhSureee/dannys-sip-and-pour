@@ -10,16 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const eventDateInput = document.querySelector("#event-date");
   const yearElement = document.querySelector("#current-year");
 
-  /*
-   * Automatically update the copyright year.
-   */
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  // Automatically update the copyright year.
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
   }
 
-  /*
-   * Prevent customers from selecting a past event date.
-   */
+  // Prevent customers from selecting a past event date.
   if (eventDateInput) {
     const today = new Date();
     const year = today.getFullYear();
@@ -29,21 +29,29 @@ document.addEventListener("DOMContentLoaded", () => {
     eventDateInput.min = `${year}-${month}-${day}`;
   }
 
-  /*
-   * Mobile navigation menu.
-   */
+  // Mobile navigation menu.
   if (menuButton && mainMenu) {
     const closeMenu = () => {
       mainMenu.classList.remove("is-open");
+
       menuButton.setAttribute("aria-expanded", "false");
-      menuButton.setAttribute("aria-label", "Open navigation menu");
+      menuButton.setAttribute(
+        "aria-label",
+        "Open navigation menu"
+      );
+
       menuButton.textContent = "Menu";
     };
 
     const openMenu = () => {
       mainMenu.classList.add("is-open");
+
       menuButton.setAttribute("aria-expanded", "true");
-      menuButton.setAttribute("aria-label", "Close navigation menu");
+      menuButton.setAttribute(
+        "aria-label",
+        "Close navigation menu"
+      );
+
       menuButton.textContent = "Close";
     };
 
@@ -58,16 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    /*
-     * Close the menu after clicking a navigation link.
-     */
+    // Close the menu after clicking a navigation link.
     mainMenu.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", closeMenu);
     });
 
-    /*
-     * Close the menu when clicking outside it.
-     */
+    // Close the menu when clicking outside it.
     document.addEventListener("click", (event) => {
       const isOpen =
         menuButton.getAttribute("aria-expanded") === "true";
@@ -81,9 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    /*
-     * Close the menu when the Escape key is pressed.
-     */
+    // Close the menu when pressing Escape.
     document.addEventListener("keydown", (event) => {
       const isOpen =
         menuButton.getAttribute("aria-expanded") === "true";
@@ -94,19 +96,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    /*
-     * Reset the menu when switching to desktop size.
-     */
+    // Reset the mobile menu when switching to desktop.
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 800) {
+      if (window.innerWidth > 820) {
         closeMenu();
       }
     });
   }
 
-  /*
-   * Scroll reveal animations.
-   */
+  // Scroll reveal animations.
   const revealSelectors = [
     "#experience > p",
     "#experience > h2",
@@ -137,10 +135,6 @@ document.addEventListener("DOMContentLoaded", () => {
       element.classList.add("reveal-delay-2");
     }
   });
-
-  const reduceMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  );
 
   const showAllRevealElements = () => {
     revealElements.forEach((element) => {
@@ -174,10 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /*
-   * Automatically select a package when the customer
-   * clicks "Request this package."
-   */
+  // Select the correct package in the quote form.
   const packageValues = {
     "Bartender Only": "bartender-only",
     "Mix & Garnish": "mix-and-garnish",
@@ -205,9 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-  /*
-   * Keep only one FAQ answer open at a time.
-   */
+  // Keep only one FAQ answer open at a time.
   document.querySelectorAll("#faq details").forEach((item) => {
     item.addEventListener("toggle", () => {
       if (!item.open) {
@@ -224,12 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /*
-   * Turn the quote form into a prefilled email.
-   *
-   * This works well for GitHub Pages because GitHub Pages
-   * does not process forms by itself.
-   */
+  // Create a prefilled email from the quote form.
   if (quoteForm) {
     quoteForm.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -240,6 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const formData = new FormData(quoteForm);
+
       const eventTypeSelect =
         document.querySelector("#event-type");
 
